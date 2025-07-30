@@ -1,19 +1,32 @@
 //tendremos 2 objetos, uno para la interfaz y alertas, y otro para la funcionalidad
 //constructores del objeto seguro
 
-function seguro(marca, year, tipo){
+function Seguro(marca, year, tipo){
     this.marca=marca;
     this.year=year;
     this.tipo=tipo;
 }
 
+
+Seguro.prototype.cotizarSeguro(){
+    /* 
+        1 = Americano 1.15
+        2 = Asiatico 1.05
+        3 = Europeo 1.35
+     */
+
+
+    
+}
+
+
+
+
 //creando el objeto UI
 function UI() {}
 
 //agregando una nueva funcion al super objeto UI
-UI.prototype.llenarOpciones= ()=>{
-   
-    
+UI.prototype.llenarOpciones = () => {
     //como no tiene parametros podríamos usar un arrow function
     const max= new Date().getFullYear();
     //de 2025 a 2005
@@ -28,14 +41,35 @@ UI.prototype.llenarOpciones= ()=>{
         option.textContent=i;
         selectYear.appendChild(option);
     }
+}
+
+
+UI.prototype.mostrarMensaje = (mensaje, tipo)=>{
+    const div = document.createElement('DIV');
+    if(tipo==='error'){
+        div.classList='error';
+    }else{
+        div.classList='correcto';
+    }
+
+    div.classList.add('mensaje', 'mt-10');
+    div.textContent=mensaje;
+
+    //insertar en HTML
+    const formulario= document.querySelector('#cotizar-seguro');
+    formulario.insertBefore(div, document.querySelector('#resultado'));
+    
+    setTimeout(() => {
+        div.remove();
+    }, 3000);
 
 }
+
 //creamos la instancia de la funcion
-const ui=new UI();
+const ui= new UI();
 //arrancamos las funciones en cuanto el dom este listo
 document.addEventListener('DOMContentLoaded', ()=>{
     ui.llenarOpciones();
-    
 });
 
 
@@ -58,9 +92,16 @@ function cotizarSeguro(e){
     const tipo = document.querySelector('input[name="tipo"]:checked').value;
 
     if(marca===''||year===''||tipo===''){
-        console.log('no pasa validacion');
-    }else{
-        console.log('si pasa validacion');
+
+        ui.mostrarMensaje('Todos los campos deben ser obligatorios', 'error');
+      
+        return;
     }
+
+    //instaciamos seguro y le damos los argumentos al objeto
+    const seguro= new Seguro(marca, year, tipo);
+    //recuerda no estamos usando object literal, usamos prototypes
+    console.log(seguro);
+
     
 }

@@ -8,15 +8,49 @@ function Seguro(marca, year, tipo){
 }
 
 
-Seguro.prototype.cotizarSeguro(){
+//ocupamos function porque debemos acceder a los datos del objeto
+Seguro.prototype.cotizarSeguro=function (){
     /* 
         1 = Americano 1.15
         2 = Asiatico 1.05
         3 = Europeo 1.35
      */
 
+    let cantidad;
+    const base = 2000;
 
-    
+    switch(this.marca){
+        case '1':
+            cantidad = base *1.15;
+            break;
+        case '2':
+            cantidad = base *1.05;
+            break;
+        case '3':
+            cantidad = base * 1.35;
+            break;
+        default:
+            break;
+    }
+    /*Por cada año vamos a reducir un 3% el costo o precio*/
+    //leer el año
+
+    const diferencia = new Date().getFullYear()-this.year;
+    //cada año que la diferencia es mayor, el costo va a reducirse un 3%
+    cantidad-= ((diferencia * 3)*cantidad) / 100;
+    /*
+        si el seguro es básico se multiplica por un 30% más 
+        si el seguro es completo se multiplica por un 50% más
+    */
+
+        if(this.tipo==='basico'){
+            cantidad*=1.30;
+
+        }else{
+            cantidad*=1.50;
+        }
+
+        return cantidad;
 }
 
 
@@ -43,7 +77,7 @@ UI.prototype.llenarOpciones = () => {
     }
 }
 
-
+//muestra alaertas
 UI.prototype.mostrarMensaje = (mensaje, tipo)=>{
     const div = document.createElement('DIV');
     if(tipo==='error'){
@@ -64,6 +98,53 @@ UI.prototype.mostrarMensaje = (mensaje, tipo)=>{
     }, 3000);
 
 }
+
+UI.prototype.mostrarResultado=(total, seguro)=>{
+    //destructuring a seguro
+    const {marca, year, tipo}=seguro;
+
+    //switch para convertir la marca en un tipo de marca de auto
+
+    switch(marca){
+        case '1': textoMarca='Americano';
+            break;
+        case '2': textoMarca='Asiatico';
+            break;
+        case '3': textoMarca='Europeo';
+            break;
+        default: ;
+        break;
+    }
+
+
+    //creamos el resultado 
+    const div= document.createElement('div');
+    div.classList='mt-10';
+    //scripting con innerHTML
+    div.innerHTML=`
+        <p class="header">Tu resumen </p>
+        <p class="font-bold">Marca: <span class='font-normal'>  ${textoMarca}  </span></p>
+        <p class="font-bold">Año: <span class='font-normal'>  ${year}  </span></p>
+        <p class="font-bold">Tipo: <span class='font-normal'>  ${tipo}  </span></p>
+        <p class="font-bold">Total: <span class='font-normal'> $ ${total}  </span></p>
+    `;
+
+    const resultadoDiv=document.querySelector('#resultado');
+    
+    //Mostrar un spinner 
+    const spinner = document.querySelector('#cargando'); 
+    spinner.style.display='block';
+
+    setTimeout(() => {
+        spinner.style.display='none';
+        resultadoDiv.appendChild(div);
+    }, 3000);
+
+
+
+    
+}
+
 
 //creamos la instancia de la funcion
 const ui= new UI();
@@ -98,10 +179,25 @@ function cotizarSeguro(e){
         return;
     }
 
+    ui.mostrarMensaje('Cotizando...', 'exito');
+
+
+    //ocultando cotizaciones previas
+
+    const resultados = document.querySelector('#resultado div');
+    if(resultados != null){
+        resultados.remove();
+    }
+
     //instaciamos seguro y le damos los argumentos al objeto
     const seguro= new Seguro(marca, year, tipo);
-    //recuerda no estamos usando object literal, usamos prototypes
-    console.log(seguro);
+    const total = seguro.cotizarSeguro();
+    
+    //utilizando el prototype que va a cotizar 
+    
+    ui.mostrarResultado(total, seguro);
+
+
 
     
 }

@@ -149,9 +149,6 @@ const ui = new UI();
 
 //funciones
 
-
-
-
 function preguntarPresupuesto() {
     const presupuestoUsuario = prompt('cual es tu presupuesto?');
 

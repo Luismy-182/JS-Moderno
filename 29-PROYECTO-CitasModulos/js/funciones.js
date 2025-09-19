@@ -1,13 +1,14 @@
-import Notificacion from "./classes/Notificacion.js";
 import AdminCitas from "./classes/AdminCitas.js";
-import {pacienteInput, propietarioInput, emailInput, fechaInput, sintomasInput, formulario, formularioInput } from "./selectores.js";
-import { citaObj, editando } from "./variables.js";
+import Notificacion from "./classes/Notificacion.js";
+import {citaObj, editando} from "./variables.js";
+import {formulario, formularioInput, pacienteInput, propietarioInput, emailInput, fechaInput, sintomasInput } from "./selectores.js";
+
 
 export function datosCita(e) {
     citaObj[e.target.name] = e.target.value
 }
 
-const citas = new AdminCitas()
+const citas = new AdminCitas();
 
 export function submitCita(e) {
     e.preventDefault();

@@ -1,10 +1,10 @@
 import { generarId } from "./funciones.js";
-
-let editando = {
-    value:false
+export let editando ={
+    value: false
 }
+
 // Objeto de Cita
-const citaObj = {
+export const citaObj = {
     id: generarId(),
     paciente: '',
     propietario: '',
@@ -13,7 +13,3 @@ const citaObj = {
     sintomas: ''
 }
 
-export {
-    editando,
-    citaObj
-}

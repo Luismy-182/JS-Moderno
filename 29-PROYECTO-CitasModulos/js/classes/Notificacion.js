@@ -1,4 +1,5 @@
-import {formulario} from "../selectores.js";
+import { formulario } from "../selectores.js"
+
 export default class Notificacion {
 
     constructor({texto, tipo}) {

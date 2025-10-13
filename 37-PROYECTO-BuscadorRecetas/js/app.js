@@ -94,13 +94,8 @@ function iniciarApp() {
             recetaCard.appendChild(recetaCardBody);
 
             recetaContenedor.appendChild(recetaCard);
-
-
             //inyeccion 
             resultado.appendChild(recetaContenedor);
-
-
-
 
         })
 
@@ -204,6 +199,7 @@ function iniciarApp() {
         toast.show();
 
     }
+    //comprueba en localstorage si ya existe el id
     function existeStorage(id) {
         const favoritos = JSON.parse(localStorage.getItem('favoritos')) ?? [];
         return favoritos.some(favorito => favorito.id === id);
@@ -217,7 +213,7 @@ function iniciarApp() {
     }
     function limpiarHTML(selector) {
         while (selector.firstChild) {
-            selector.removeChild(selector.firstChild)
+            selector.removeChild(selector.firstChild);
         }
     }
 

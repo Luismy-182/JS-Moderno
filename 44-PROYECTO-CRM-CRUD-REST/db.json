@@ -1,11 +1,18 @@
 {
   "clientes": [
     {
-      "nombre": "Juan NUEVO!",
+      "nombre": "Miguel Angel",
+      "email": "mike@correo.com",
+      "telefono": "5533243707",
+      "empresa": "codigo con Mike",
+      "id": "946f"
+    },
+    {
+      "id": "0b63",
+      "nombre": "Evelyn",
       "email": "correo2@correo.com",
-      "telefono": "12",
-      "empresa": "12212",
-      "id": 26
+      "telefono": "5533243707",
+      "empresa": "codigo con Evelyn"
     }
   ]
 }

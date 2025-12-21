@@ -4,7 +4,6 @@ import Button from './components/Button'
 import { formatearDinero, calcularTotalPagar } from './helpers';
 
 function App() {
-
   const [cantidad, setCantidad] = useState(10000);
   const [meses, setMeses] = useState(6); //select cantidad de meses
   const [total, setTotal] = useState(calcularTotalPagar(0));
@@ -20,6 +19,8 @@ function App() {
   useEffect(()=>{
     setPago(total/meses);
   }, [total]);
+
+  
   //variables fijas
   const MIN = 0;
   const MAX = 20000;

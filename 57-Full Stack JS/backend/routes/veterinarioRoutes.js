@@ -7,7 +7,7 @@ const router = express.Router();
 //toma el relevo del router /api/veterinarios
 router.post('/', registrar);
 router.get('/perfil', checkAuth, perfil);
-router.get('/confirmar/:token', confirmar);
+router.get('/confirmar-cuenta/:token', confirmar);
 router.post('/login', autenticar);
 router.post('/olvide-password', olvidePassword);
 router.get('/olvide-password/:token', comprobarToken);

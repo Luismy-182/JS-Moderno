@@ -1,21 +1,30 @@
 import Veterinario from "../models/Veterinario.js";
 import generaJWT from "../helpers/generaJWT.js";
 import generarId from "../helpers/generarId.js";
+import emailRegistro from "../helpers/emailRegistro.js"; 
+import emailOlvidePassword from "../helpers/emailOlvidePassword.js";
 
 const registrar = async (req, res) => {
-    const { email } = req.body
+    const { email, nombre } = req.body
 
     //prevenir usuarios duplicados
     const existeUsuario = await Veterinario.findOne({ email });
     if (existeUsuario) {
-        console.log('Ya existe el usuario');
-        return;
+        //crea un mensaje de error
+        const error= new Error('Ya existe el usuario');
+        return res.status(400).json({msg:error.message});
     }
 
     try {
         //guardando un nuevo usuario
         const veterinario = new Veterinario(req.body);
         const veterinarioGuardado = await veterinario.save();
+        //envia el email
+        emailRegistro({
+            email,
+            nombre,
+            token: veterinarioGuardado.token
+        })
         res.json({ msg: "Guardado exitosamente" });
     } catch (error) {
         console.log(error);
@@ -41,7 +50,7 @@ const confirmar = async (req, res) => {
         usuarioConfirmar.token = null;
         usuarioConfirmar.confirmado = true;
         await usuarioConfirmar.save();
-        res.json({ url: 'confirmando cuenta....' })
+        res.json({ msg: 'Cuenta confirmada correctamente, inicia sesión' })
     } catch (error) {
         console.log(error);
 
@@ -88,7 +97,13 @@ const olvidePassword = async(req, res)=>{
     try {
         existeVeterinario.token=generarId();
         await existeVeterinario.save();
-        res.json({message:"Hemos enviado un email con las instrucciones"});
+        //enviar email con instrucciones
+        emailOlvidePassword({
+            email, 
+            nombre:existeVeterinario.nombre,
+            token:existeVeterinario.token
+        });
+        res.json({msg:"Hemos enviado un email con las instrucciones"});
     } catch (error) {
         console.log(error);
         

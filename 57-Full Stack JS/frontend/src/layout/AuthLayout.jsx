@@ -1,8 +1,12 @@
-import React from 'react'
-
+import { Outlet } from 'react-router-dom'
 const AuthLayout = () => {
   return (
-    <div>AuthLayout</div>
+    <>
+      <main className='container items-center mx-auto md:grid md:grid-cols-2 mt-12 gap-10 p-5'>
+
+        <Outlet />
+      </main>
+    </>
   )
 }
 

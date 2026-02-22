@@ -11,7 +11,7 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [alertas, setAlertas] = useState({});
-
+  const {setAuth}=useAuth();
   const navigate=useNavigate()
   const handleSubmit = async(e) => {
     e.preventDefault();
@@ -25,6 +25,8 @@ const Login = () => {
       const url=`/veterinarios/login`;
       const {data}= await clienteAxios.post(url,{email, password});
       localStorage.setItem('token', data.token);
+      setAuth(data);
+      
       //se usa navigate para ir a otra ruta de tu router con react
       navigate('/admin');
     } catch (error) {   
@@ -36,6 +38,7 @@ const Login = () => {
 
   }
   const { msg } = alertas;
+  
   
 
 
@@ -49,7 +52,7 @@ const Login = () => {
       <div className="bg-white mt-20 md:mt-5 shadow-lg px-5 py-10 rounded-xl">
         {
             msg && <Alertas
-            alerta={alertas}
+            alertas={alertas}
           />
 
         
